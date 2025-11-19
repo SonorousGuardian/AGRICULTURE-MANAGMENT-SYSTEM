@@ -1,9 +1,9 @@
-#define WIFI_SSID "amritesh123"
-#define WIFI_PASSWORD "amritesh@123"
+#define WIFI_SSID "#####"
+#define WIFI_PASSWORD "######"
 
 // Firebase database URL and secret
-#define FIREBASE_HOST "https://console.firebase.google.com/project/iot-hid/database/iot-hid-default-rtdb/data/~2F"
-#define FIREBASE_AUTH "FyRoqm2kZsnt2xRYKwuVZ7BgG1nKyygWVXDxg6Mm" // Replace with your Firebase Database Secret
+#define FIREBASE_HOST "#######"
+#define FIREBASE_AUTH "#######"
 
 #include <WiFi.h>
 #include <FirebaseESP32.h>

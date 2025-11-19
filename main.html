@@ -1,189 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AGRICULTURE MANAGEMENT SYSTEM</title>
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-   <!-- AOS Stylesheet -->
-   <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-   <!-- Firebase -->
-   <script defer src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
-   <script defer src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
-   <script defer src="main.js"></script>
-  <link rel="stylesheet" type="text/css" href=main.css >
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agriculture Managment  Dashboard</title>
+    <!-- JustGage and Raphael -->
+    <script src="https://cdn.jsdelivr.net/npm/raphael"></script>
+    <script src="https://cdn.jsdelivr.net/npm/justgage"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"></script>
+    <!-- Main CSS -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .gauge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .gauge-box {
+            width: 200px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .gauge-box h4 {
+            margin-bottom: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+        .gauge-box #temperatureGauge,
+        .gauge-box #lightGauge,
+        .gauge-box #soilMoistureGauge,
+        .gauge-box #humidityGauge {
+            height: 160px;
+        }
+    </style>
 </head>
 <body>
 
-<!-- Header -->
-<header id="header" class="align-items-center" style="background-color: rgb(186, 206, 203);">
-  <div class="container">
-    <div class="header-container align-items-center justify-content-between">
-      <div class="logo" style="text-align: center;">
-        <h1 class="text-light">
-          <h1 style="color: rgb(0, 0, 0);">AGRICULTURE MANAGMENT SYSTEM</h1>
-      </div>
-
-      
-</header>
-
-<!-- Hero Section -->
-<section id="hero" class="d-flex align-items-center" data-aos="fade-in" data-aos-delay="200">
-  <div class="container text-center position-relative">
-    <h2 style="color: rgb(238, 234, 234);">Empowering Communities, One Solution at a Time."</h2>
-  </div>
-</section>
-
-<!-- About Us Section -->
-<section id="about-us" class="about-us">
-  <div class="container">
-    <h2 class="text-center" style="color: aliceblue; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">ABOUT US</h2>
-    <div class="row justify-content-center">
-      <!-- Welcome Section -->
-      <div  data-aos="zoom-in" data-aos-delay="100">
-        <div class="icon-box-wrapper">
-          <div class="icon-box electricity">
-            <div class="box-content">
-              <img src="icon1.png" alt="Welcome Icon" width="200" height="200">
-              <p>Agriculture management systems are designed to improve the efficiency and productivity of agricultural operations by leveraging technology. 
-                They integrate various sensors, data analytics,and automation tools to monitor and manage different aspects of farming. Here's an overview of 
-                the components and benefits of such systems
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-
-<!-- Our Services Section -->
-<section id="our-services" class="our-services">
-  <div class="container">
-    <h2 class="text-center" style="color: aliceblue; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">DASHBOARD</h2>
-    <div class="row">
-      <!-- Bill Calculator Section -->
-      <div class="col-lg-6">
-        <div class="icon-box-wrapper" data-aos="zoom-in" data-aos-delay="100">
-          <div class="icon-box electricity">
-            <h4><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-thermometer-half" viewBox="0 0 16 16">
-                <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415"/>
-                <path d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1"/>
-              </svg>
-               TEMPRATURE</h4>
-               <div id="temperatureGauge" class="gauge"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Accidents Reporting Section -->
-      <div class="col-lg-6">
-        <div class="icon-box-wrapper" data-aos="zoom-in" data-aos-delay="100">
-          <div class="icon-box accidents">
-            <h4><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-brightness-high-fill" viewBox="0 0 16 16">
-                <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708"/>
-                </svg>
-                Light</h4>
-                <div id="lightGauge" class="gauge"></div>
-          </div>
-        </div>
-      </div>
-      <!-- Robbery Reporting Section -->
-      <div class="col-lg-6">
-        <div class="icon-box-wrapper" data-aos="zoom-in" data-aos-delay="200">
-          <div class="icon-box robbery">
-            <h4><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M2 12h4m11 0h5M3 20.01l.01-.011M6 16.01l.01-.011M9 20.01l.01-.011M12 16.01l.01-.011M15 20.01l.01-.011M18 16.01l.01-.011M21 20.01l.01-.011M9 13s.9-3.741 3-6"/><path d="m16.186 2.241l.374 3.89c.243 2.523-1.649 4.77-4.172 5.012c-2.475.238-4.718-1.571-4.956-4.047a4.503 4.503 0 0 1 4.05-4.914l4.147-.4a.51.51 0 0 1 .557.46"/></g>
-            </svg>Soil Moisture</h4>
-            <div id="soilMoistureGauge" class="gauge"></div>
-            </div>
-        </div>
-      </div>
-      <!-- Repair and Maintenance Section -->
-      <div class="col-lg-6">
-        <div class="icon-box-wrapper" data-aos="zoom-in" data-aos-delay="200">
-          <div class="icon-box farming-new">
-            <h4><svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 30 30"><path fill="currentColor" d="M7.56 17.19c0-.88.24-1.89.72-3.03s1.1-2.25 1.86-3.31c1.56-2.06 2.92-3.62 4.06-4.67l.75-.72c.25.26.53.5.83.72c.41.42 1.04 1.11 1.88 2.09s1.57 1.85 2.17 2.65c.71 1.01 1.32 2.1 1.81 3.25s.74 2.16.74 3.03c0 1-.19 1.95-.58 2.86c-.39.91-.91 1.7-1.57 2.36c-.66.66-1.45 1.19-2.37 1.58c-.92.39-1.89.59-2.91.59c-1 0-1.95-.19-2.86-.57c-.91-.38-1.7-.89-2.36-1.55c-.66-.65-1.19-1.44-1.58-2.35s-.59-1.89-.59-2.93m2.26-2.93c0 .83.17 1.49.52 1.99c.35.49.88.74 1.59.74c.72 0 1.25-.25 1.61-.74c.35-.49.53-1.15.54-1.99c-.01-.84-.19-1.5-.54-2c-.35-.49-.89-.74-1.61-.74c-.71 0-1.24.25-1.59.74c-.35.5-.52 1.16-.52 2m1.57 0v-.35c0-.08.01-.19.02-.33s.02-.25.05-.32s.05-.16.09-.24c.04-.08.09-.15.15-.18c.07-.04.14-.06.23-.06c.14 0 .25.04.33.12s.14.21.17.38c.03.18.05.32.06.45s.01.3.01.52c0 .23 0 .4-.01.52s-.03.27-.06.45c-.03.17-.09.3-.17.38s-.19.12-.33.12c-.09 0-.16-.02-.23-.06a.335.335 0 0 1-.15-.18c-.04-.08-.07-.17-.09-.24c-.02-.08-.04-.19-.05-.32c-.01-.14-.02-.25-.02-.32zm.59 7.75h1.32l4.99-10.74h-1.35zm4.3-2.99c.01.84.2 1.5.55 2c.35.49.89.74 1.6.74c.72 0 1.25-.25 1.6-.74c.35-.49.52-1.16.53-2c-.01-.84-.18-1.5-.53-1.99c-.35-.49-.88-.74-1.6-.74c-.71 0-1.25.25-1.6.74c-.36.49-.54 1.15-.55 1.99m1.57 0c0-.23 0-.4.01-.52s.03-.27.06-.45s.09-.3.17-.38s.19-.12.33-.12c.09 0 .17.02.24.06c.07.04.12.1.16.19c.04.09.07.17.1.24s.04.18.05.32l.01.32v.69l-.01.32l-.05.32l-.1.24l-.16.19l-.24.06c-.14 0-.25-.04-.33-.12s-.14-.21-.17-.38c-.03-.18-.05-.33-.06-.45s-.01-.3-.01-.53"/>
-            </svg>Humidity</h4>
-            <div id="humidityGauge" class="gauge"></div>
-        </div>
-      </div>
+<div class="gauge-container">
+    <div class="gauge-box">
+        <h4>Temperature</h4>
+        <div id="temperatureGauge"></div>
     </div>
-  </div>
-</section>
-
-
-<!-- Team Section -->
-<section class="team">
-  <div class="container">
-    <h2 class="creator" style="color: aliceblue; font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;" >CREATOR</h2>
-    <div class="row">
-      <div class="col-xl-6" data-aos="zoom-in" data-aos-delay="200">
-        <div class="icon-box-wrapper">
-          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#fff" class="bi bi-1-square-fill" viewBox="0 0 16 16">
-            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm7.283 4.002V12H7.971V5.338h-.065L6.072 6.656V5.385l1.899-1.383z"/>
-          </svg>
-          
-          <div class="icon-box farming-new">
-            <h4>AMRITESH SHRIVASTAVA</h4>
-            <h6>1BM22IC007</h6>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-6" data-aos="zoom-in" data-aos-delay="200">
-        <div class="icon-box-wrapper">
-          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#fff" class="bi bi-2-square-fill" viewBox="0 0 16 16">
-            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm4.646 6.24v.07H5.375v-.064c0-1.213.879-2.402 2.637-2.402 1.582 0 2.613.949 2.613 2.215 0 1.002-.6 1.667-1.287 2.43l-.096.107-1.974 2.22v.077h3.498V12H5.422v-.832l2.97-3.293c.434-.475.903-1.008.903-1.705 0-.744-.557-1.236-1.313-1.236-.843 0-1.336.615-1.336 1.306"/>
-          </svg>
-          
-          <div class="icon-box farming-new">
-            <h4>ABHISHEK YADAV</h4>
-            <h6>1BM22IC002</h6>
-          </div>
-        </div>
-      </div>
+    <div class="gauge-box">
+        <h4>Light</h4>
+        <div id="lightGauge"></div>
     </div>
-    <div class="row">
-      <div class="col-xl-6" data-aos="zoom-in" data-aos-delay="200">
-        <div class="icon-box-wrapper">
-          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#fff" class="bi bi-3-square-fill" viewBox="0 0 16 16">
-            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm5.918 8.414h-.879V7.342h.838c.78 0 1.348-.522 1.342-1.237 0-.709-.563-1.195-1.348-1.195-.79 0-1.312.498-1.348 1.055H5.275c.036-1.137.95-2.115 2.625-2.121 1.594-.012 2.608.885 2.637 2.062.023 1.137-.885 1.776-1.482 1.875v.07c.703.07 1.71.64 1.734 1.917.024 1.459-1.277 2.396-2.93 2.396-1.705 0-2.707-.967-2.754-2.144H6.33c.059.597.68 1.06 1.541 1.066.973.006 1.6-.563 1.588-1.354-.006-.779-.621-1.318-1.541-1.318"/>
-          </svg>
-          
-          <div class="icon-box farming-new">
-            <h4>ADITYA GOEL</h4>
-            <h6>1BM22IC003</h6>
-          </div>
-        </div>
-      </div>
-      <div class="col-xl-6" data-aos="zoom-in" data-aos-delay="200">
-        <div class="icon-box-wrapper">
-          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="#fff" class="bi bi-4-square-fill" viewBox="0 0 16 16">
-            <path d="M6.225 9.281v.053H8.85V5.063h-.065c-.867 1.33-1.787 2.806-2.56 4.218"/>
-            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm5.519 5.057q.33-.527.657-1.055h1.933v5.332h1.008v1.107H10.11V12H8.85v-1.559H4.978V9.322c.77-1.427 1.656-2.847 2.542-4.265Z"/>
-          </svg>
-          <div class="icon-box farming-new">
-            <h4>ANKIT GIRI</h4>
-            <h6>1BM22IC009</h6>
-          </div>
-        </div>
-      </div>
+    <div class="gauge-box">
+        <h4>Soil Moisture</h4>
+        <div id="soilMoistureGauge"></div>
     </div>
-  </div>
-</section>
+    <div class="gauge-box">
+        <h4>Humidity</h4>
+        <div id="humidityGauge"></div>
+    </div>
+</div>
 
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
 <script>
-  AOS.init({
-    duration: 800,
-    easing: 'ease-in-out',
-    once: true
-  });
-  
+    document.addEventListener("DOMContentLoaded", function () {
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "##########",
+            authDomain: "#########",
+            projectId: "monitor",
+            storageBucket: "#############",
+            messagingSenderId: "##############",
+            appId: "##############"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Initialize gauges with default static values
+        const temperatureGauge = new JustGage({
+            id: "temperatureGauge",
+            value: 25,
+            min: 0,
+            max: 100,
+            title: "Temperature"
+        });
+
+        const lightGauge = new JustGage({
+            id: "lightGauge",
+            value: 75,
+            min: 0,
+            max: 100,
+            title: "Light"
+        });
+
+        const soilMoistureGauge = new JustGage({
+            id: "soilMoistureGauge",
+            value: 50,
+            min: 0,
+            max: 100,
+            title: "Soil Moisture"
+        });
+
+        const humidityGauge = new JustGage({
+            id: "humidityGauge",
+            value: 60,
+            min: 0,
+            max: 100,
+            title: "Humidity"
+        });
+
+        // Function to fetch data from Firestore and update gauges
+        function fetchFirestoreData() {
+            db.collection("sensorData").doc("latest").get()
+                .then(doc => {
+                    if (doc.exists) {
+                        const data = doc.data();
+                        temperatureGauge.refresh(data.temperature || 25);
+                        lightGauge.refresh(data.light || 75);
+                        soilMoistureGauge.refresh(data.soilMoisture || 50);
+                        humidityGauge.refresh(data.humidity || 60);
+                    }
+                })
+                .catch(error => console.error("Error fetching Firestore data:", error));
+        }
+
+        // Fetch data every 5 seconds
+        setInterval(fetchFirestoreData, 5000);
+    });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/raphael@2.3.0/raphael.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/justgage@1.4.0/justgage.min.js"></script>
-<script defer src="main.js"></script>
 
 </body>
 </html>
